@@ -2,13 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authMiddleware } from '@/lib/auth';
 
+// Define the context type for route handlers
+interface RouteContext {
+  params: { id: string };
+}
+
 // GET a single blog by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
-    const { id } = params;
+    const { id } = context.params;
     const blog = await prisma.blog.findUnique({
       where: { id },
     });
@@ -33,7 +38,7 @@ export async function GET(
 // PUT (update) a blog
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     // Check authentication
@@ -45,7 +50,7 @@ export async function PUT(
       );
     }
 
-    const { id } = params;
+    const { id } = context.params;
     const body = await request.json();
     const { title, content, slug, image, published } = body;
 
@@ -82,7 +87,7 @@ export async function PUT(
 // DELETE a blog
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     // Check authentication
@@ -94,7 +99,7 @@ export async function DELETE(
       );
     }
 
-    const { id } = params;
+    const { id } = context.params;
 
     // Delete the blog
     await prisma.blog.delete({
