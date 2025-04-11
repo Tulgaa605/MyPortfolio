@@ -73,6 +73,7 @@ export default function AboutPage() {
       }
       
       setError(null);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       console.error('Error fetching about data:', err);
       setError('Failed to load about data. Please try again later.');
@@ -300,7 +301,7 @@ export default function AboutPage() {
                     Profile Information
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300 mt-2">
-                    Click "Edit About Me" to update your profile information.
+                    Click &quot;Edit About Me&quot; to update your profile information.
                   </p>
                 </div>
               </div>
