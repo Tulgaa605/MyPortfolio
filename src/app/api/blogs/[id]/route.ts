@@ -3,14 +3,12 @@ import { prisma } from '@/lib/prisma';
 import { authMiddleware } from '@/lib/auth';
 
 // Define the context type for route handlers
-interface RouteContext {
-  params: { id: string };
-}
+// Remove the RouteContext interface
 
 // GET a single blog by ID
 export async function GET(
   request: NextRequest,
-  context: RouteContext
+  context: { params: { id: string } } // Update context type
 ) {
   try {
     const { id } = context.params;
@@ -38,16 +36,14 @@ export async function GET(
 // PUT (update) a blog
 export async function PUT(
   request: NextRequest,
-  context: RouteContext
+  context: { params: { id: string } } // Update context type
 ) {
   try {
     // Check authentication
     const authResult = await authMiddleware(request);
-    if (!authResult.isAuthenticated) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // If authMiddleware returns a response with an error status, return it immediately
+    if (authResult.status >= 400) {
+      return authResult;
     }
 
     const { id } = context.params;
@@ -87,16 +83,14 @@ export async function PUT(
 // DELETE a blog
 export async function DELETE(
   request: NextRequest,
-  context: RouteContext
+  context: { params: { id: string } } // Update context type
 ) {
   try {
     // Check authentication
     const authResult = await authMiddleware(request);
-    if (!authResult.isAuthenticated) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // If authMiddleware returns a response with an error status, return it immediately
+    if (authResult.status >= 400) {
+      return authResult;
     }
 
     const { id } = context.params;
