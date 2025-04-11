@@ -40,13 +40,13 @@ export default async function Home() {
       <section id="hero" className="relative z-10 flex flex-col items-center justify-center text-center py-24 md:py-32">
         <div className="relative max-w-4xl mx-auto px-4">
           <h1 className="mb-4 text-5xl md:text-7xl font-extrabold tracking-tight text-white">
-            Hi, I'm Munkhtulga
+            Hi, I&apos;m Munkhtulga
           </h1>
           <h2 className="mb-8 text-2xl md:text-4xl font-semibold text-indigo-200">
             Full Stack Developer
           </h2>
           <p className="mb-12 text-lg md:text-xl text-gray-100 max-w-3xl mx-auto">
-            Crafting seamless digital experiences from front-end elegance to back-end robustness. Let's build something amazing together.
+            Crafting seamless digital experiences from front-end elegance to back-end robustness. Let&apos;s build something amazing together.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
              <Link 
