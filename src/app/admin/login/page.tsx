@@ -50,6 +50,7 @@ export default function LoginPage() {
         setIsLoading(false);
       }
     } catch (err) {
+      console.error('Login failed:', err);
       setError('Алдаа гарлаа. Дахин оролдоно уу.');
       setIsLoading(false);
     }

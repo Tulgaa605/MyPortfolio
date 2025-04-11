@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { authMiddleware, adminMiddleware } from '@/lib/auth';
 
-export async function POST(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function POST(_request: NextRequest) {
   try {
     // This is a one-time script to update all users to have admin role
     // In a production environment, you would want to protect this with proper authentication

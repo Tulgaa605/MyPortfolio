@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma';
-import { authMiddleware } from '@/lib/auth';
 import ContactList from '@/components/admin/ContactList';
 
 export default async function ContactsPage() {
