@@ -3,15 +3,23 @@ import { prisma } from '@/lib/prisma';
 import { authMiddleware } from '@/lib/auth';
 
 // Define the context type for route handlers
-// Remove the RouteContext interface
+// Remove the explicit interface again
+// interface BlogRouteContext {
+//  params: { id: string };
+// }
 
 // GET a single blog by ID
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } } // Update context type
+  { params }: { params: { id: string } }
 ) {
+  // Temporarily simplified GET handler for debugging
+  console.log("Received GET request for ID:", params.id);
+  return NextResponse.json({ message: `GET request received for ID: ${params.id}` });
+
+  /* Original GET handler logic - commented out
   try {
-    const { id } = context.params;
+    const { id } = params;
     const blog = await prisma.blog.findUnique({
       where: { id },
     });
@@ -31,12 +39,13 @@ export async function GET(
       { status: 500 }
     );
   }
+  */
 }
 
 // PUT (update) a blog
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } } // Update context type
+  { params }: { params: { id: string } }
 ) {
   try {
     // Check authentication
@@ -46,7 +55,7 @@ export async function PUT(
       return authResult;
     }
 
-    const { id } = context.params;
+    const { id } = params;
     const body = await request.json();
     const { title, content, slug, image, published } = body;
 
@@ -83,7 +92,7 @@ export async function PUT(
 // DELETE a blog
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } } // Update context type
+  { params }: { params: { id: string } }
 ) {
   try {
     // Check authentication
@@ -93,7 +102,7 @@ export async function DELETE(
       return authResult;
     }
 
-    const { id } = context.params;
+    const { id } = params;
 
     // Delete the blog
     await prisma.blog.delete({
