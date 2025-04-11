@@ -2,24 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authMiddleware } from '@/lib/auth';
 
-// Define the context type for route handlers
-// Remove the explicit interface again
-// interface BlogRouteContext {
-//  params: { id: string };
-// }
+// Define the context type explicitly
+type BlogRouteContext = { params: { id: string } };
+
+// Define the handler type
+type BlogRouteHandler = (
+  request: NextRequest,
+  context: BlogRouteContext
+) => Promise<Response | NextResponse>;
 
 // GET a single blog by ID
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  // Temporarily simplified GET handler for debugging
-  console.log("Received GET request for ID:", params.id);
-  return NextResponse.json({ message: `GET request received for ID: ${params.id}` });
-
-  /* Original GET handler logic - commented out
+export const GET: BlogRouteHandler = async (request, context) => {
+  // Restore original GET handler logic
   try {
-    const { id } = params;
+    const { id } = context.params;
     const blog = await prisma.blog.findUnique({
       where: { id },
     });
@@ -39,14 +35,10 @@ export async function GET(
       { status: 500 }
     );
   }
-  */
-}
+};
 
 // PUT (update) a blog
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export const PUT: BlogRouteHandler = async (request, context) => {
   try {
     // Check authentication
     const authResult = await authMiddleware(request);
@@ -55,7 +47,7 @@ export async function PUT(
       return authResult;
     }
 
-    const { id } = params;
+    const { id } = context.params;
     const body = await request.json();
     const { title, content, slug, image, published } = body;
 
@@ -87,13 +79,10 @@ export async function PUT(
       { status: 500 }
     );
   }
-}
+};
 
 // DELETE a blog
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export const DELETE: BlogRouteHandler = async (request, context) => {
   try {
     // Check authentication
     const authResult = await authMiddleware(request);
@@ -102,7 +91,7 @@ export async function DELETE(
       return authResult;
     }
 
-    const { id } = params;
+    const { id } = context.params;
 
     // Delete the blog
     await prisma.blog.delete({
@@ -120,4 +109,4 @@ export async function DELETE(
       { status: 500 }
     );
   }
-} 
+}; 
