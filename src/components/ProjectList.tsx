@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Github, ExternalLink } from 'lucide-react';
 
@@ -66,6 +65,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
           >
             <div className="relative h-52 w-full overflow-hidden">
               {project.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={project.image || '/project-placeholder.svg'}
                   alt={project.title}

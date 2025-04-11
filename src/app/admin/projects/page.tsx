@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Cookies from 'js-cookie';
 
 interface Project {
@@ -211,6 +210,7 @@ export default function ProjectsPage() {
             >
               <div className="relative h-48">
                 {project.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={project.image}
                     alt={project.title}

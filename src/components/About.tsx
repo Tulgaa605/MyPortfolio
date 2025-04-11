@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { Code2, Database, Layout, Server, Download } from 'lucide-react';
 import Link from 'next/link';
 
@@ -155,6 +154,7 @@ export default function About() {
         
         <div className="relative group flex justify-center md:justify-end">
            <div className="relative h-80 w-80 md:h-150 md:w-120 overflow-hidden rounded-xl shadow-xl border border-gray-200 dark:border-gray-700">
+             {/* eslint-disable-next-line @next/next/no-img-element */}
              <img
                src={aboutData.profileImage || '/profile-placeholder.svg'}
                alt="Profile Picture"

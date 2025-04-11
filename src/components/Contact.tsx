@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
 
 interface AboutData {
@@ -22,25 +22,6 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [contactInfo, setContactInfo] = useState<AboutData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchContactInfo = async () => {
-      try {
-        const response = await fetch('/api/about');
-        if (!response.ok) {
-          throw new Error('Failed to fetch contact information');
-        }
-        const data = await response.json();
-        setContactInfo(data);
-      } catch (error) {
-        console.error('Error fetching contact info:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchContactInfo();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -246,7 +227,7 @@ export default function Contact() {
               <div className="flex items-center justify-center p-3 rounded-md bg-green-100 dark:bg-green-900/50 border border-green-200 dark:border-green-700">
                 <CheckCircle className="w-5 h-5 mr-2 text-green-600 dark:text-green-400" />
                 <p className="text-sm text-green-700 dark:text-green-300">
-                  Message sent successfully! I'll be in touch soon.
+                  Message sent successfully! I&apos;ll be in touch soon.
                 </p>
               </div>
             )}

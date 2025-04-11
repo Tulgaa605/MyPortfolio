@@ -89,7 +89,8 @@ export async function adminMiddleware(_req: NextRequest) {
     
     return NextResponse.next();
     */
-  } catch (_error) {
+  } catch (error) {
+    console.error("Authorization error:", error);
     return NextResponse.json(
       { error: 'Authorization failed' },
       { status: 403 }

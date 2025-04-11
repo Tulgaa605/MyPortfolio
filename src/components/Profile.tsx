@@ -10,6 +10,7 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ profile }) => {
   return (
     <div className="relative w-32 h-32">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={profile.image || '/profile-placeholder.svg'}
         alt={profile.name}
