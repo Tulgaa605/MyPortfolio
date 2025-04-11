@@ -12,6 +12,7 @@ export function generateToken(userId: string, role: string) {
 export function verifyToken(token: string) {
   try {
     return jwt.verify(token, JWT_SECRET);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_error) {
     return null;
   }

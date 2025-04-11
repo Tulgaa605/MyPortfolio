@@ -20,7 +20,8 @@ const ParticlesBackground = () => {
     });
   }, []);
 
-  const particlesLoaded = async (container?: Container): Promise<void> => {
+  // Prefix 'container' with '_' as it's not used
+  const particlesLoaded = async (_container?: Container): Promise<void> => {
     // console.log('Particles container loaded', container);
   };
 
