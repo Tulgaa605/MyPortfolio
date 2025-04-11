@@ -18,7 +18,7 @@ export default function SkillsPage() {
   const [formData, setFormData] = useState<Partial<Skill>>({
     name: '',
     icon: '',
-    level: 1,
+    level: 50,
     category: 'other',
     order: 0
   });
@@ -67,7 +67,7 @@ export default function SkillsPage() {
     setFormData({
       name: '',
       icon: '',
-      level: 1,
+      level: 50,
       category: 'other',
       order: 0
     });
@@ -201,7 +201,7 @@ export default function SkillsPage() {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <span className="text-3xl">{skill.icon}</span>
+                  <span className="text-2xl">{skill.icon}</span>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     {skill.name}
                   </h3>
@@ -221,22 +221,22 @@ export default function SkillsPage() {
                   </button>
                 </div>
               </div>
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, index) => (
-                  <span
-                    key={index}
-                    className={`text-xl ${
-                      index < skill.level
-                        ? 'text-yellow-400'
-                        : 'text-gray-300 dark:text-gray-600'
-                    }`}
-                  >
-                    ★
-                  </span>
-                ))}
+
+              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2 overflow-hidden">
+                <div 
+                  className="bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full"
+                  style={{ width: `${Math.min(Math.max(skill.level || 0, 0), 100)}%` }}
+                />
               </div>
-              <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-right text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
+                {Math.min(Math.max(skill.level || 0, 0), 100)}%
+              </div>
+              
+              <div className="text-sm text-gray-500 dark:text-gray-400">
                 Category: {skill.category}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Order: {skill.order}
               </div>
             </div>
           ))
@@ -278,14 +278,14 @@ export default function SkillsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Proficiency Level (1-5)
+                  Proficiency Level (0-100)
                 </label>
                 <input
                   type="number"
-                  min="1"
-                  max="5"
-                  value={formData.level || 1}
-                  onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) })}
+                  min="0"
+                  max="100"
+                  value={formData.level || 50}
+                  onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) || 0 })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                 />

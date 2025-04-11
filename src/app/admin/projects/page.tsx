@@ -15,14 +15,12 @@ interface Project {
   featured?: boolean;
   order?: number;
 }
-
-// Define a more specific type for the form data
 interface ProjectFormData {
   id?: string;
   title: string;
   description: string;
   image: string | null;
-  technologies: string[] | string; // Allow both array and string during input
+  technologies: string[] | string;
   githubUrl: string;
   liveUrl?: string | null;
   featured?: boolean;
@@ -33,7 +31,7 @@ const initialFormData: ProjectFormData = {
   title: '',
   description: '',
   image: null,
-  technologies: [], // Start with empty array
+  technologies: [],
   githubUrl: '',
   liveUrl: '',
   featured: false,
@@ -46,22 +44,14 @@ export default function ProjectsPage() {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  // Use the more specific type for formData state
   const [formData, setFormData] = useState<ProjectFormData>(initialFormData);
-
-  // Function to get token from cookie
   const getToken = () => {
-    // Try to get token from js-cookie first
     const tokenFromJsCookie = Cookies.get('token');
     if (tokenFromJsCookie) return tokenFromJsCookie;
-    
-    // Try to get token from localStorage
     if (typeof window !== 'undefined') {
       const tokenFromLocalStorage = localStorage.getItem('token');
       if (tokenFromLocalStorage) return tokenFromLocalStorage;
     }
-    
-    // Fallback to document.cookie if js-cookie doesn't find it
     const tokenFromDocCookie = document.cookie
       .split('; ')
       .find(row => row.startsWith('token='))
@@ -105,13 +95,12 @@ export default function ProjectsPage() {
 
   const handleAddProject = () => {
     setEditingProject(null);
-    setFormData(initialFormData); // Reset with initial state
+    setFormData(initialFormData);
     setIsModalOpen(true);
   };
 
   const handleEditProject = (project: Project) => {
     setEditingProject(project);
-    // Convert Project to ProjectFormData, ensuring technologies is array
     setFormData({ 
       ...project, 
       technologies: Array.isArray(project.technologies) ? project.technologies : [] 
@@ -126,12 +115,12 @@ export default function ProjectsPage() {
       return;
     }
     if (window.confirm('Are you sure you want to delete this project?')) {
-      setError(null); // Clear previous errors
+      setError(null);
       try {
         const response = await fetch(`/api/projects/${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}` // Add Authorization header
+            'Authorization': `Bearer ${token}`
           }
         });
         if (!response.ok) {
@@ -160,28 +149,25 @@ export default function ProjectsPage() {
     const techInput = formData.technologies;
     if (Array.isArray(techInput)) {
         technologiesArray = techInput;
-    } else if (typeof techInput === 'string') { // Now this check should be safer
+    } else if (typeof techInput === 'string') {
         technologiesArray = techInput.split(',').map((t: string) => t.trim()).filter(Boolean);
     }
-
-    // Prepare data for API (ensure technologies is array of strings)
     const dataToSend = {
       ...formData,
-      id: editingProject ? editingProject.id : undefined, // Remove id if creating
+      id: editingProject ? editingProject.id : undefined,
       technologies: technologiesArray
     };
-    // Remove id from dataToSend if it's a new project
     if (!editingProject) {
         delete dataToSend.id;
     }
 
-    setError(null); // Clear previous errors before submitting
+    setError(null); 
     try {
       const response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Add Authorization header
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(dataToSend),
       });
@@ -329,9 +315,7 @@ export default function ProjectsPage() {
                 </label>
                 <input
                   type="text"
-                  // Use formData.technologies directly, handle array/string in value
                   value={Array.isArray(formData.technologies) ? formData.technologies.join(', ') : formData.technologies}
-                  // Update state, keeping it as string temporarily
                   onChange={(e) => setFormData({ ...formData, technologies: e.target.value })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
@@ -368,7 +352,7 @@ export default function ProjectsPage() {
                   type="button"
                   onClick={() => {
                     setIsModalOpen(false);
-                    setError(null); // Clear error when closing modal
+                    setError(null);
                   }}
                   className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 >

@@ -51,9 +51,9 @@ export async function PUT(
         { status: 404 }
       );
     }
-    if (data.level && (data.level < 1 || data.level > 5)) {
+    if (data.level !== undefined && (data.level < 0 || data.level > 100)) {
       return NextResponse.json(
-        { error: 'Level must be between 1 and 5' },
+        { error: 'Level must be between 0 and 100' },
         { status: 400 }
       );
     }

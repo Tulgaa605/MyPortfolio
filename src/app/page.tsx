@@ -3,69 +3,114 @@ import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Link from 'next/link';
+import prisma from '@/lib/prisma';
+import AnimatedSection from '@/components/AnimatedSection';
 
-export default function Home() {
+// Define the Project type needed for the Projects component
+type Project = {
+  id: string;
+  title: string;
+  description: string;
+  image: string | null;
+  technologies: string[];
+  githubUrl: string;
+  liveUrl?: string | null;
+  featured?: boolean;
+  order?: number;
+  createdAt?: Date; 
+  updatedAt?: Date;
+};
+async function getProjects(): Promise<Project[]> {
+  try {
+    const projects = await prisma.project.findMany({
+      orderBy: { order: 'asc' },
+    });
+    return projects as Project[];
+  } catch (error) {
+    console.error("Failed to fetch projects:", error);
+    return []; 
+  }
+}
+
+export default async function Home() {
+  const projects = await getProjects();
+
   return (
     <>
-      <section id="hero" className="flex flex-col items-center justify-center text-center py-24 md:py-23 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800">
-        <div className="max-w-4xl mx-auto px-4">
-          <h1 className="mb-4 text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            Hi, I'm Chin Khuslen
+      <section id="hero" className="relative z-10 flex flex-col items-center justify-center text-center py-24 md:py-32">
+        <div className="relative max-w-4xl mx-auto px-4">
+          <h1 className="mb-4 text-5xl md:text-7xl font-extrabold tracking-tight text-white">
+            Hi, I'm Munkhtulga
           </h1>
-          <h2 className="mb-8 text-2xl md:text-4xl font-semibold text-primary dark:text-primary-dark">
+          <h2 className="mb-8 text-2xl md:text-4xl font-semibold text-indigo-200">
             Full Stack Developer
           </h2>
-          <p className="mb-12 text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="mb-12 text-lg md:text-xl text-gray-100 max-w-3xl mx-auto">
             Crafting seamless digital experiences from front-end elegance to back-end robustness. Let's build something amazing together.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
              <Link 
                href="/#projects"
-               className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark dark:bg-primary dark:hover:bg-primary-dark/90 transition duration-300 ease-in-out shadow-lg transform hover:-translate-y-1"
+               className="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition duration-300 ease-in-out shadow-lg transform hover:-translate-y-1"
              >
                View My Projects
              </Link>
              <Link 
                href="/#contact"
-               className="inline-flex items-center justify-center px-8 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-300 ease-in-out shadow-lg transform hover:-translate-y-1"
+               className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-100 transition duration-300 ease-in-out shadow-lg transform hover:-translate-y-1"
              >
                Get In Touch
              </Link>
           </div>
-          <div className="flex justify-center space-x-8">
-            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary-dark transition-colors duration-300 transform hover:scale-110">
+          <div className="flex justify-center space-x-10">
+            <a href="https://github.com/Tulgaa605" target="_blank" rel="noopener noreferrer" className="text-gray-200 hover:text-white transition-colors duration-300 transform hover:scale-110">
               <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
             </a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary-dark transition-colors duration-300 transform hover:scale-110">
-              <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+            <a href="https://www.instagram.com/tsasan_hun_/" target="_blank" rel="noopener noreferrer" className="text-gray-200 hover:text-white transition-colors duration-300 transform hover:scale-110">
+              <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.247.637.415 1.363.465 2.428.05 1.066.06 1.405.06 4.122s-.01 3.056-.06 4.122c-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.556.555-1.112.9-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.05-1.405.06-4.122.06s-3.056-.01-4.122-.06c-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12s.01-3.056.06-4.122c.05-1.065.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.378 2.52c.637-.248 1.363-.415 2.428-.465C8.866 2.013 9.205 2 12 2zm0 1.8c-2.68 0-3.009.01-4.064.059-1.008.046-1.604.207-2.128.414-.55.215-1.004.52-1.448.963a3.1 3.1 0 00-.964 1.448c-.207.524-.368 1.12-.414 2.128C2.96 9.009 2.95 9.32 2.95 12s.01 2.991.059 4.064c.046 1.008.207 1.604.414 2.128.215.55.52 1.004.964 1.448.444.443.897.748 1.448.964.524.207 1.12.368 2.128.414C9.009 21.04 9.32 21.05 12 21.05s2.991-.01 4.064-.059c1.008-.046 1.604-.207 2.128-.414.55-.216 1.004-.52 1.448-.964.443-.444.748-.897.964-1.448.207-.524.368-1.12.414-2.128.049-1.073.059-1.384.059-4.064s-.01-2.991-.059-4.064c-.046-1.008-.207-1.604-.414-2.128a3.1 3.1 0 00-.964-1.448c-.444-.443-.898-.748-1.448-.963-.524-.208-1.12-.369-2.128-.415C15.009 3.81 14.68 3.8 12 3.8zm0 4.495A3.705 3.705 0 1012 15.7a3.705 3.705 0 000-7.405zm0 6.113a2.408 2.408 0 110-4.816 2.408 2.408 0 010 4.816zM16.95 6.584a1.155 1.155 0 100 2.31 1.155 1.155 0 000-2.31z" clipRule="evenodd" /></svg>
             </a>
-            <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary-dark transition-colors duration-300 transform hover:scale-110">
-              <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
+            <a href="https://www.facebook.com/munhtulga.enhbayr" target="_blank" rel="noopener noreferrer" className="text-gray-200 hover:text-white transition-colors duration-300 transform hover:scale-110">
+              <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V21.878A10.004 10.004 0 0022 12z" clipRule="evenodd" /></svg>
             </a>
           </div>
         </div>
       </section>
 
-      <section id="about" className="py-20 md:py-10 bg-white dark:bg-gray-900">
+      <AnimatedSection
+        id="about"
+        className="relative z-10 py-16 md:py-20"
+      >
         <div className="container mx-auto px-4">
           <About />
         </div>
-      </section>
-      <section id="skills" className="py-20 md:py-20 bg-gray-50 dark:bg-gray-950">
+      </AnimatedSection>
+      <AnimatedSection
+        id="skills"
+        className="relative z-10 py-16 md:py-20"
+        delay={0.1}
+      >
         <div className="container mx-auto px-4">
           <Skills />
         </div>
-      </section>
-      <section id="projects" className="py-20 md:py-15 bg-white dark:bg-gray-900">
+      </AnimatedSection>
+      <AnimatedSection
+        id="projects"
+        className="relative z-10 py-16 md:py-20"
+        delay={0.2}
+      >
         <div className="container mx-auto px-4">
-          <Projects />
+          <Projects projects={projects} />
         </div>
-      </section>
-      <section id="contact" className="py-20 md:py-15 bg-gray-50 dark:bg-gray-950">
+      </AnimatedSection>
+      <AnimatedSection
+        id="contact"
+        className="relative z-10 py-16 md:py-20"
+        delay={0.3}
+      >
         <div className="container mx-auto px-4">
           <Contact />
         </div>
-      </section>
+      </AnimatedSection>
     </>
   );
 }

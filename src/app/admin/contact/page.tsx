@@ -24,8 +24,6 @@ export default function ContactPage() {
   const fetchContacts = async () => {
     try {
       setIsLoading(true);
-      
-      // Get the token from localStorage
       const token = localStorage.getItem('token');
       
       if (!token) {
@@ -60,7 +58,6 @@ export default function ContactPage() {
     }
 
     try {
-      // Get the token from localStorage
       const token = localStorage.getItem('token');
       
       if (!token) {
@@ -88,7 +85,6 @@ export default function ContactPage() {
 
   const toggleReadStatus = async (id: string, currentReadStatus: boolean) => {
     try {
-      // Get the token from localStorage
       const token = localStorage.getItem('token');
       
       if (!token) {

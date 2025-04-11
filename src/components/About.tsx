@@ -119,6 +119,24 @@ export default function About() {
               </div>
             )}
           </div>
+          <div className="pt-6">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+              Key Skills
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {skills.map((skill) => (
+                <div 
+                  key={skill.name} 
+                  className="flex items-center space-x-2 bg-gray-100 dark:bg-gray-800 p-3 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200"
+                >
+                  {skill.icon}
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {skill.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {aboutData.resumeUrl && (
             <div className="pt-6">
@@ -136,7 +154,7 @@ export default function About() {
         </div>
         
         <div className="relative group flex justify-center md:justify-end">
-           <div className="relative h-80 w-80 md:h-96 md:w-96 overflow-hidden rounded-xl shadow-xl border border-gray-200 dark:border-gray-700">
+           <div className="relative h-80 w-80 md:h-150 md:w-120 overflow-hidden rounded-xl shadow-xl border border-gray-200 dark:border-gray-700">
              <img
                src={aboutData.profileImage || '/profile-placeholder.svg'}
                alt="Profile Picture"

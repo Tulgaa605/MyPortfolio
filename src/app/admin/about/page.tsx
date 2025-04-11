@@ -37,7 +37,6 @@ export default function AboutPage() {
     try {
       setIsLoading(true);
       
-      // Get the token from localStorage
       const token = localStorage.getItem('token');
       
       if (!token) {
@@ -57,12 +56,10 @@ export default function AboutPage() {
       
       const data = await response.json();
       
-      // If we got data, use it; otherwise use default values
       if (data) {
         setAboutData(data);
         setFormData(data);
       } else {
-        // Set default values if no data was returned
         const defaultData = {
           bio: 'Welcome to my portfolio! I am a passionate developer with expertise in web technologies.',
           profileImage: '/profile-placeholder.svg',
@@ -80,7 +77,6 @@ export default function AboutPage() {
       console.error('Error fetching about data:', err);
       setError('Failed to load about data. Please try again later.');
       
-      // Set default values in case of error
       const defaultData = {
         bio: 'Welcome to my portfolio! I am a passionate developer with expertise in web technologies.',
         profileImage: '/profile-placeholder.svg',
@@ -111,7 +107,6 @@ export default function AboutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Get the token from localStorage
       const token = localStorage.getItem('token');
       
       if (!token) {
@@ -268,7 +263,6 @@ export default function AboutPage() {
                       const socialLinks = e.target.value ? JSON.parse(e.target.value) : null;
                       setFormData({ ...formData, socialLinks });
                     } catch (err) {
-                      // Invalid JSON, but we'll let the user continue typing
                     }
                   }}
                   rows={4}

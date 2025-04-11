@@ -15,6 +15,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,7 +62,7 @@ export default function Contact() {
       }
 
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
@@ -89,6 +90,15 @@ export default function Contact() {
         title: 'Email',
         content: contactInfo.email,
         link: `mailto:${contactInfo.email}`
+      });
+    }
+    const phoneNumber = "+976 89980862";
+    if (phoneNumber) {
+      items.push({
+        icon: Phone,
+        title: 'Phone',
+        content: phoneNumber,
+        link: `tel:${phoneNumber}`
       });
     }
 
@@ -131,7 +141,7 @@ export default function Contact() {
                  href={item.link}
                  target={item.link !== '#' ? "_blank" : undefined}
                  rel="noopener noreferrer"
-                 className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors duration-200 group"
+                 className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors duration-200 group"
                >
                  <div className="flex-shrink-0 mt-1 p-2.5 bg-primary/10 dark:bg-primary/20 rounded-full text-primary">
                    <item.icon className="w-5 h-5" />
@@ -146,10 +156,8 @@ export default function Contact() {
              ))
            )}
            {contactInfo?.socialLinks && (
-             <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-               <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                 Social Links
-               </h4>
+             <div className="dark:border-gray-700">
+               
                <div className="flex gap-4">
                  {Object.entries(contactInfo.socialLinks).map(([platform, url]) => (
                    <a
@@ -215,7 +223,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white transition duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 ${ 
+              className={`w-full inline-flex items-center justify-center px-6 py-3 border border-transparent border-white text-base font-medium rounded-md text-white transition duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 ${ 
                 isSubmitting
                   ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed'
                   : 'bg-primary hover:bg-primary-dark dark:hover:bg-primary-dark/90 transform hover:-translate-y-0.5'

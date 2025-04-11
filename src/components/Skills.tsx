@@ -8,6 +8,7 @@ import {
   Server, 
   Globe,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface Skill {
   id: string;
@@ -85,8 +86,9 @@ export default function Skills() {
 
   const groupedSkills = groupSkillsByCategory(skills);
   const categories = Object.keys(groupedSkills).sort();
+  
   const levelToPercentage = (level: number) => {
-    return Math.min(Math.max(level, 0), 5) * 20;
+    return Math.min(Math.max(level, 0), 100);
   };
 
   const getIconComponent = (iconName: string) => {
@@ -123,9 +125,12 @@ export default function Skills() {
                     </div>
                   </div>
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                    <div 
-                      className="bg-gradient-to-r from-primary/70 to-primary dark:from-primary-dark/70 dark:to-primary-dark h-2.5 rounded-full transition-all duration-500 ease-out"
-                      style={{ width: `${levelToPercentage(skill.level)}%` }} 
+                    <motion.div
+                      className="bg-white h-2.5 rounded-full"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${levelToPercentage(skill.level)}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
                       role="progressbar"
                       aria-valuenow={levelToPercentage(skill.level)}
                       aria-valuemin={0}

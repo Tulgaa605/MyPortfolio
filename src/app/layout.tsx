@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ParticlesBackground from '@/components/ParticlesBackground';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950`}>
+      <body className={`${inter.className} bg-white dark:bg-gray-900 flex flex-col min-h-screen relative`}>
+        <ParticlesBackground />
         <Navbar />
-        <main className="flex-grow container mx-auto px-4 py-8">
+        <main className="flex-grow relative z-10">
           {children}
         </main>
         <Footer />
