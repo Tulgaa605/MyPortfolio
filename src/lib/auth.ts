@@ -12,10 +12,20 @@ export function generateToken(userId: string, role: string) {
 export function verifyToken(token: string) {
   try {
     return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
+
+// Added interface for decoded token payload
+interface DecodedToken {
+  userId: string;
+  role: string;
+  // Add other expected fields from your JWT payload if necessary
+  iat: number; 
+  exp: number;
+}
+
 export async function authMiddleware(req: NextRequest) {
   try {
     const token = req.headers.get('authorization')?.split(' ')[1];
@@ -40,8 +50,9 @@ export async function authMiddleware(req: NextRequest) {
     console.log('Decoded token:', decoded);
     
     const requestHeaders = new Headers(req.headers);
-    requestHeaders.set('x-user-id', (decoded as any).userId);
-    requestHeaders.set('x-user-role', (decoded as any).role || 'admin'); // Default to admin if role is missing
+    // Use the defined interface instead of 'any'
+    requestHeaders.set('x-user-id', (decoded as DecodedToken).userId);
+    requestHeaders.set('x-user-role', (decoded as DecodedToken).role || 'admin'); // Default to admin if role is missing
     
     return NextResponse.next({
       request: {
@@ -56,7 +67,7 @@ export async function authMiddleware(req: NextRequest) {
     );
   }
 }
-export async function adminMiddleware(req: NextRequest) {
+export async function adminMiddleware(_req: NextRequest) {
   try {
     // Temporarily allow all authenticated users to access admin routes
     // In a production environment, you would want to check the role
@@ -64,7 +75,7 @@ export async function adminMiddleware(req: NextRequest) {
     
     // Original code (commented out for now)
     /*
-    const userRole = req.headers.get('x-user-role');
+    const userRole = _req.headers.get('x-user-role');
     
     if (userRole !== 'admin') {
       return NextResponse.json(
@@ -75,7 +86,7 @@ export async function adminMiddleware(req: NextRequest) {
     
     return NextResponse.next();
     */
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json(
       { error: 'Authorization failed' },
       { status: 403 }

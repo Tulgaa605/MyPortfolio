@@ -10,9 +10,10 @@ interface CachedConnection {
   promise: Promise<typeof mongoose> | null;
 }
 declare global {
+  // eslint-disable-next-line no-var
   var mongoose: CachedConnection | undefined;
 }
-let cached: CachedConnection = global.mongoose || { conn: null, promise: null };
+const cached: CachedConnection = global.mongoose || { conn: null, promise: null };
 
 if (!global.mongoose) {
   global.mongoose = cached;
