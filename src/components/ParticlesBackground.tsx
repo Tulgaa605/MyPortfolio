@@ -21,6 +21,7 @@ const ParticlesBackground = () => {
   }, []);
 
   // Prefix 'container' with '_' as it's not used
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const particlesLoaded = async (_container?: Container): Promise<void> => {
     // console.log('Particles container loaded', container);
   };

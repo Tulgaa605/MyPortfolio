@@ -68,6 +68,8 @@ export async function authMiddleware(req: NextRequest) {
     );
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function adminMiddleware(_req: NextRequest) {
   try {
     // Temporarily allow all authenticated users to access admin routes
