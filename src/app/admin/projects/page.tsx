@@ -90,7 +90,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   const handleAddProject = () => {
     setEditingProject(null);

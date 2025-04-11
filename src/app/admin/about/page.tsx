@@ -73,7 +73,6 @@ export default function AboutPage() {
       }
       
       setError(null);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       console.error('Error fetching about data:', err);
       setError('Failed to load about data. Please try again later.');

@@ -20,9 +20,7 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [contactInfo, setContactInfo] = useState<AboutData | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

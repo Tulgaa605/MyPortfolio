@@ -44,7 +44,6 @@ export default function ContactPage() {
       setContacts(data);
       setError(null);
     } catch (err) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       console.error('Error fetching contacts:', err);
       setError('Failed to load contacts. Please try again later.');
     } finally {

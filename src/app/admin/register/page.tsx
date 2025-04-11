@@ -51,6 +51,7 @@ export default function RegisterPage() {
         setError(data.error || 'Бүртгэл амжилтгүй боллоо');
       }
     } catch (err) {
+      console.error('Registration failed:', err);
       setError('Алдаа гарлаа. Дахин оролдоно уу.');
     } finally {
       setIsLoading(false);
