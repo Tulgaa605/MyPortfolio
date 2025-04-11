@@ -10,7 +10,7 @@ interface AboutData {
   resumeUrl?: string;
   email: string;
   location?: string;
-  socialLinks?: any;
+  socialLinks?: { [key: string]: string } | null;
 }
 
 export default function AboutPage() {
@@ -177,13 +177,16 @@ export default function AboutPage() {
                 </label>
                 <div className="flex items-center space-x-4">
                   <div className="relative h-32 w-32">
-                    <img
-                      src={imagePreview || formData.profileImage}
+                    <Image
+                      src={imagePreview || formData.profileImage || '/profile-placeholder.svg'}
                       alt="Profile"
-                      className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                      fill
+                      className="object-cover rounded-lg"
                       onError={(e) => { 
                         console.error('Image loading error:', e);
-                        e.currentTarget.src = '/profile-placeholder.svg'; 
+                        // Handle error - maybe set a fallback image state? 
+                        // For now, relying on the initial value '/profile-placeholder.svg'
+                        // if both imagePreview and formData.profileImage fail
                       }}
                     />
                   </div>
@@ -263,11 +266,12 @@ export default function AboutPage() {
                       const socialLinks = e.target.value ? JSON.parse(e.target.value) : null;
                       setFormData({ ...formData, socialLinks });
                     } catch (err) {
+                      console.error('Error parsing social links JSON:', err);
                     }
                   }}
                   rows={4}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                  placeholder='{"github": "https://github.com/username", "linkedin": "https://linkedin.com/in/username"}'
+                  placeholder='{&quot;github&quot;: &quot;https://github.com/username&quot;, &quot;linkedin&quot;: &quot;https://linkedin.com/in/username&quot;}'
                 />
               </div>
 

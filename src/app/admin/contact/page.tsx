@@ -15,7 +15,6 @@ export default function ContactPage() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   useEffect(() => {
     fetchContacts();
@@ -45,6 +44,7 @@ export default function ContactPage() {
       setContacts(data);
       setError(null);
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       console.error('Error fetching contacts:', err);
       setError('Failed to load contacts. Please try again later.');
     } finally {
